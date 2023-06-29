@@ -1,3 +1,9 @@
+const buttons = document.querySelectorAll('button')
+buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      playRound(button.id);
+    });
+})
 
 const getComputerChoice = () => {
     const choices = ["Rock", "Paper", "Scissor"]
@@ -17,37 +23,51 @@ const decideWinner = (player, computer) => {
     }
 }
 
-const playGame = () => {
-
-    var playerScore = 0
-    var computerScore = 0
+const getPlayerSelection = () => {
     while (true) {
-        let computerSelection = getComputerChoice().toLowerCase()
-        while (true) {
-            var playerSelection = prompt("Choice between Rock, Paper, and Scissor: ").toString().toLowerCase()
-            if (playerSelection == "rock" || playerSelection == "paper" || playerSelection == "scissor") {
-                break
-            }
-        }
-
-        console.log(playerSelection)
-        console.log(computerSelection)
-
-        const [text, winner] = decideWinner(playerSelection, computerSelection)
-
-        if (winner == "win") {
-            playerScore++
-        } else if (winner == "lose") {
-            computerScore++
-        }
-
-        console.log(text)
-        console.log(`The score is currently Player: ${playerScore} | Computer: ${computerScore}`)
-
-        if ((playerScore + computerScore) == 5) {
+        var playerSelection = prompt("Choice between Rock, Paper, and Scissor: ").toString().toLowerCase()
+        if (playerSelection == "rock" || playerSelection == "paper" || playerSelection == "scissor") {
             break
         }
     }
+
+    return playerSelection
 }
 
-playGame()
+const playRound = (playerSelection) => {
+    let computerSelection = getComputerChoice().toLowerCase()
+
+    console.log(playerSelection)
+    console.log(computerSelection)
+
+    const [text, winner] = decideWinner(playerSelection, computerSelection)
+    updateScore(winner)
+}
+
+const updateScore = (winner) => {
+    const playerScore = document.getElementById("playerScore")
+    const computerScore = document.getElementById("computerScore")
+
+    let intPlayerScore = parseInt(playerScore.textContent)
+    let intComputerScore = parseInt(computerScore.textContent)
+
+    if (winner == "win") {
+        intPlayerScore++
+        playerScore.textContent = intPlayerScore
+        if (intPlayerScore == 5) {
+            const scorecard = document.getElementById("scorecard")
+            const winnerDisplay = document.createElement("h3")
+            winnerDisplay.textContent = "You have won!"
+            scorecard.appendChild(winnerDisplay)
+        }
+    } else if (winner == "lose") {
+        intComputerScore++
+        computerScore.textContent = intComputerScore
+        if (intComputerScore == 5) {
+            const scorecard = document.getElementById("scorecard")
+            const winnerDisplay = document.createElement("h3")
+            winnerDisplay.textContent = "The computer won!"
+            scorecard.appendChild(winnerDisplay)
+        }
+    }
+}

@@ -1,0 +1,21 @@
+#playerSelections {
+    display: flex;
+}
+
+#playerSelections > button {
+    flex: 1;
+    color: white;
+    padding: 10px;
+    margin: 10px;
+    background-color: black;
+}
+
+#scorecard {
+    display: flex;
+    align-items: center;
+}
+
+#scorecard > h3 {
+    text-align: center;
+    padding: 5px;
+}
